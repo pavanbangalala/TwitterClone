@@ -13,4 +13,19 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="standardbutton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/standart_text_size</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:background">@drawable/standard_button_rounded</item>
+    </style>
+    <style name="linktext">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+    <style name="heading">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>
