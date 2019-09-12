@@ -12,10 +12,22 @@
             android:roundIcon="@drawable/logo"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activities.SignUpActivity"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoTitleBar"
-                  android:windowSoftInputMode="adjustResize">
+        <activity android:name=".activities.TweetActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoTitleBar"
+        android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity
+                android:name=".activities.ProfileActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoTitleBar"
+                android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity
+                android:name=".activities.SignUpActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoTitleBar"
+                android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
                 android:name=".activities.HomeActivity"
