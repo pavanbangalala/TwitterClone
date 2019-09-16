@@ -17,5 +17,6 @@ data class Tweet(
     val imageUrl: String?="",
     val timeStamp:Long?=0,
     val hashTags:ArrayList<String>?= arrayListOf<String>(),
-    val likes:ArrayList<String>?= arrayListOf()
+    val likes:ArrayList<String>?= arrayListOf(),
+    val retweets:ArrayList<String>?= arrayListOf()
 )

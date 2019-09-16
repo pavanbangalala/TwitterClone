@@ -25,6 +25,8 @@ class TweetActivity : AppCompatActivity() {
     private var userId:String?=null
     private var userName:String?=null
     private var tweetId:DocumentReference?=null
+    private var likes = arrayListOf<String>()
+    private var retweets = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,29 +66,45 @@ class TweetActivity : AppCompatActivity() {
         val text = etTweetText.text.toString()
         tweetId = firebaseDB.collection(DATA_TWEETS).document()
         Log.i("uploadImage",imageUri.toString())
-        var filePath = firebaseStorage.child(DATA_TWEET_IMAGES).child(userId!!)
-        filePath.putFile(imageUri!!).addOnSuccessListener {
-            filePath.downloadUrl.addOnSuccessListener {
-                imageUri = it
-                val hashtags = getHashTags(text)
-                val tweet= Tweet(tweetId?.id, arrayListOf(userId!!),userName,text,imageUri?.toString(),System.currentTimeMillis(),hashtags)
-                Log.i("uploadImage image uri",imageUri.toString())
-                Log.i("uploadImage tweet id",tweetId.toString())
-                Log.i("uploadImage tweet",tweet.toString())
-                tweetId!!.set(tweet).addOnCompleteListener {  finish()}.addOnFailureListener {
-                        e->e.printStackTrace()
-                    linear_pb_container_tweet.visibility = View.GONE
-                    Toast.makeText(this@TweetActivity,"failed to post tweet ...",Toast.LENGTH_SHORT).show()
-                }
-            }.addOnFailureListener {
+        if(imageUri == null){
+            val hashtags = getHashTags(text)
+            val tweet= Tweet(tweetId?.id, arrayListOf(userId!!),userName,text,imageUri?.toString(),System.currentTimeMillis(),hashtags,
+                retweets,likes)
+            Log.i("uploadImage image uri",imageUri.toString())
+            Log.i("uploadImage tweet id",tweetId.toString())
+            Log.i("uploadImage tweet",tweet.toString())
+            tweetId!!.set(tweet).addOnCompleteListener {  finish()}.addOnFailureListener {
+                    e->e.printStackTrace()
                 linear_pb_container_tweet.visibility = View.GONE
-                Toast.makeText(this@TweetActivity," failed to send the tweet ...",Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(this@TweetActivity,"failed to post tweet ...",Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener{
-            linear_pb_container_tweet.visibility = View.GONE
-            Toast.makeText(this@TweetActivity,"failed to send the tweet...",Toast.LENGTH_SHORT).show()
+        }else{
+            var filePath = firebaseStorage.child(DATA_TWEET_IMAGES).child(userId!!)
+            filePath.putFile(imageUri!!).addOnSuccessListener {
+                filePath.downloadUrl.addOnSuccessListener {
+                    imageUri = it
+                    val hashtags = getHashTags(text)
+                    val tweet= Tweet(tweetId?.id, arrayListOf(userId!!),userName,text,imageUri?.toString(),System.currentTimeMillis(),hashtags,
+                        retweets,likes)
+                    Log.i("uploadImage image uri",imageUri.toString())
+                    Log.i("uploadImage tweet id",tweetId.toString())
+                    Log.i("uploadImage tweet",tweet.toString())
+                    tweetId!!.set(tweet).addOnCompleteListener {  finish()}.addOnFailureListener {
+                            e->e.printStackTrace()
+                        linear_pb_container_tweet.visibility = View.GONE
+                        Toast.makeText(this@TweetActivity,"failed to post tweet ...",Toast.LENGTH_SHORT).show()
+                    }
+                }.addOnFailureListener {
+                    linear_pb_container_tweet.visibility = View.GONE
+                    Toast.makeText(this@TweetActivity," failed to send the tweet ...",Toast.LENGTH_SHORT).show()
+
+                }
+            }.addOnFailureListener{
+                linear_pb_container_tweet.visibility = View.GONE
+                Toast.makeText(this@TweetActivity,"failed to send the tweet...",Toast.LENGTH_SHORT).show()
+            }
         }
+
 
 
     }

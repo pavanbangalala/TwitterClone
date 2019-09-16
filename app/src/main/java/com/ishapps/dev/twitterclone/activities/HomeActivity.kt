@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -48,7 +49,24 @@ class HomeActivity : AppCompatActivity() {
             override fun onTabUnselected(p0: TabLayout.Tab?) {
             }
 
-            override fun onTabSelected(p0: TabLayout.Tab?) {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when(tab?.position){
+                    0->{
+                        titleBar.visibility = View.VISIBLE
+                        titleBar.text = "Home"
+                        searchBar.visibility = View.GONE
+                    }
+                    1->{
+                        titleBar.visibility = View.GONE
+                        searchBar.visibility  = View.VISIBLE
+
+                    }
+                    2->{
+                        titleBar.visibility = View.VISIBLE
+                        titleBar.text = "My Activity"
+                        searchBar.visibility = View.GONE
+                    }
+                }
 
             }
 
@@ -60,6 +78,12 @@ class HomeActivity : AppCompatActivity() {
                 startActivity( TweetActivity.newIntent(this@HomeActivity,userId,user?.username))
             }
 
+        }
+        etsearch.setOnEditorActionListener { v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH){
+                searchFragment.newHashTag(v.text.toString())
+            }
+            true
         }
         linear_pb_container_home.setOnTouchListener { v, event -> true }
     }
